@@ -51,7 +51,7 @@ class KnightTravels
 
   def add_possible_move(position, value)
     if @positions.key?(position)
-      value.possible_moves.push(@positions[position])
+      value.possible_moves.push(position)
     end
   end
 end
