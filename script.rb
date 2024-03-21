@@ -1,5 +1,3 @@
-#7x7 chess board, knight moves 2 in d1 and 1 in d2, max 8 possible moves
-#generate all moves for all squares and link them in a graph
 class Node
   attr_accessor(:position, :possible_moves)
 
@@ -16,6 +14,8 @@ end
 class KnightTravels
   def initialize()
     @positions = {}
+    add_positions()
+    map_positions()
   end
 
   def add_positions
@@ -54,11 +54,27 @@ class KnightTravels
       value.possible_moves.push(position)
     end
   end
+
+  def knight_moves(start, finish)
+    start_key = "#{start[0]}#{start[1]}"
+    previous_moves = []
+    queue = [[@positions[start_key], ""]]
+    while queue.length > 0
+      current_with_previous = queue.pop()
+      current_with_previous[1]
+      current = current_with_previous[0]
+      previous = current_with_previous[1]
+      if current.position == finish
+        puts "the quickest path is #{previous}"
+        return current
+      else
+        current.possible_moves.each do |key|
+          queue.unshift([@positions[key], previous + current.position.to_s])
+        end
+      end
+    end
+  end    
 end
 
 a = KnightTravels.new()
-a.add_positions
-a.map_positions
-
-#perform all possible moves until the desired field is reached
-#return the moves made
+a.knight_moves([4,5],[1,5])
